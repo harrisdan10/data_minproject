@@ -8,6 +8,28 @@ def search(file, criteria, count):
         info.drop(info.columns.difference(criteria), 1, inplace=True)
     print(info.head(count))
 
+    refine = []
+    specify = ''
+    while specify == '' and specify not in ["yes", "y"]:
+        specify = input("Would you care to refine your search?\n").lower()
+        if specify == "yes" or specify == "y":
+            for c in criteria:
+                refined = input(f'What {c} would you like to look up?\n').title()
+                refine.append(refined)
+        else:
+            sys.exit()
+
+    specific(file, criteria, refine)
+
+def specific(file, criteria, refine):
+    info = pd.read_csv(file, index_col=0)
+    info.drop(info.columns.difference(criteria), 1, inplace=True)
+    for c in criteria:
+        for r in refine:
+            refined = info.loc[info[c] == r]
+    count = int(input("How many results would you like to see?\n"))
+    print(refined.head(count))
+
 def main():
     file = 'onepiecefruits.txt'
     print("Use me to look up data on devil fruits, their users, types, and states, and more...\n"
