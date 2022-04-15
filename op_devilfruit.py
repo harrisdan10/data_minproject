@@ -16,8 +16,10 @@ def search(file, criteria, count):
         if specify not in ["yes", "y"]:
             sys.exit()
         else:
+            refined = ''
             for c in criteria:
-                refined = input(f'What {c} would you like to look up?\n').title()
+                while refined == '':
+                    refined = input(f'What {c} would you like to look up?\n').title()
                 refine.append(refined)
 
     specific(file, criteria, refine)
